@@ -15,6 +15,14 @@ import Foundation
 
 class Date: Printable {
     var nsdate:NSDate
+    //convenience
+    //    init(dateString:String) {
+    //        let dateStringFormatter = NSDateFormatter()
+    //        dateStringFormatter.dateFormat = "yyyy-MM-dd"
+    //        dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    //        let d = dateStringFormatter.dateFromString(dateString)
+    //        self.init(timeInterval:0, sinceDate:d)
+    //}
     
     init() {
         nsdate = NSDate()
@@ -33,18 +41,31 @@ class Date: Printable {
         return self.nsdate
     }
     
-    class var cal:NSCalendar {
-        get {
+    //class var cal:NSCalendar {
+    //    get {
+    //        //return NSCalendar()
+    //        //return NSCalendar(identifier:NSGregorianCalendar)
+    //        return NSCalendar.currentCalendar()
+    //}
+    //}
+    class func cal() -> NSCalendar {
             //return NSCalendar()
             //return NSCalendar(identifier:NSGregorianCalendar)
             return NSCalendar.currentCalendar()
     }
-    }
+    ///class func cal {
+    //    return NSCalendar()
+    //    //return NSCalendar(identifier:NSGregorianCalendar)
+    //    //return NSCalendar.currentCalendar()
+    //}
     
-    class var dateUnitComp: NSCalendarUnit {
-        get {
+    //class var dateUnitComp: NSCalendarUnit {
+    //    get {
+    //        return NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitMonth|NSCalendarUnit.CalendarUnitDay|NSCalendarUnit.CalendarUnitHour|NSCalendarUnit.CalendarUnitMinute|NSCalendarUnit.CalendarUnitSecond|NSCalendarUnit.CalendarUnitNanosecond|NSCalendarUnit.CalendarUnitTimeZone|NSCalendarUnit.CalendarUnitWeekday|NSCalendarUnit.CalendarUnitWeekOfYear|NSCalendarUnit.CalendarUnitQuarter
+    //}
+    //}
+    class func dateUnitComp() -> NSCalendarUnit {
             return NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitMonth|NSCalendarUnit.CalendarUnitDay|NSCalendarUnit.CalendarUnitHour|NSCalendarUnit.CalendarUnitMinute|NSCalendarUnit.CalendarUnitSecond|NSCalendarUnit.CalendarUnitNanosecond|NSCalendarUnit.CalendarUnitTimeZone|NSCalendarUnit.CalendarUnitWeekday|NSCalendarUnit.CalendarUnitWeekOfYear|NSCalendarUnit.CalendarUnitQuarter
-    }
     }
     
     class func now() -> Date {
@@ -62,6 +83,7 @@ class Date: Printable {
         dateStringFormatter.dateFormat = "yyyy-MM-dd"
         dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         nsdate = Date(nsdate: dateStringFormatter.dateFromString(yyyy_mm_dd)).nsdate
+        //return d
     }
     
     init (year:Int, month:Int, day:Int) {
@@ -91,6 +113,7 @@ class Date: Printable {
         var cal = NSCalendar(identifier:NSGregorianCalendar)
         var date = cal.dateFromComponents(c)
         nsdate = date
+        //return Date(date: date)
     }
     
     
@@ -98,16 +121,26 @@ class Date: Printable {
         var i: Int = 0
         //var cal = NSCalendar()
         //var dateComp = cal.components(NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitMonth|NSCalendarUnit.CalendarUnitDay, fromDate: self)
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp = Date.cal().components(Date.dateUnitComp(), fromDate: self.nsdate)
         i=dateComp.year
         return i
     }
     
+    class func componentsOf(nsdate:NSDate) -> NSDateComponents {
+        var dateComp = Date.cal().components(Date.dateUnitComp(), fromDate: nsdate)
+        return dateComp
+    }
+    
+    func components() -> NSDateComponents {
+        return Date.componentsOf(nsdate)
+    }
     
     var year: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: nsdate)
+        //var dateComp = Date.cal().components(Date.dateUnitComp(), fromDate: nsdate)
+        //var dateComp=Date.componentsOf(nsdate)
+        var dateComp=components()
         i=dateComp.year
         return i
     }
@@ -119,7 +152,7 @@ class Date: Printable {
     var month: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.month
         return i
     }
@@ -131,7 +164,7 @@ class Date: Printable {
     var day: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.day
         return i
     }
@@ -143,7 +176,7 @@ class Date: Printable {
     var hour: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.hour
         return i
     }
@@ -155,7 +188,7 @@ class Date: Printable {
     var minute: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.minute
         return i
     }
@@ -167,7 +200,7 @@ class Date: Printable {
     var second: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.second
         return i
     }
@@ -179,7 +212,7 @@ class Date: Printable {
     var nanosecond: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.nanosecond
         return i
     }
@@ -191,7 +224,7 @@ class Date: Printable {
     var weekday: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.weekday
         return i
     }
@@ -200,7 +233,7 @@ class Date: Printable {
     var weekOfYear: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.weekOfYear
         return i
     }
@@ -209,7 +242,7 @@ class Date: Printable {
     var quarter: Int {
     get {
         var i: Int = 0
-        var dateComp = Date.cal.components(Date.dateUnitComp, fromDate: self.nsdate)
+        var dateComp=components()
         i=dateComp.quarter
         return i
     }
@@ -228,6 +261,7 @@ class Date: Printable {
         var r=Date(year: year, month: month, day: day, hour: hour, minute: minute, second: second, nanosecond: nano)
         nsdate=r.nsdate
         return self
+        //return r
     }
     
     func add (d: Date) -> Date {
@@ -281,11 +315,42 @@ class Date: Printable {
         //NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         //NSDateComponents *components = [calendar components:unitFlags fromDate:dt1 toDate:dt2 options:0];
         //return [components day]+1;
-        var op = Date.cal.components(NSCalendarUnit.DayCalendarUnit, fromDate: Date.date0().nsdate, toDate: self.nsdate, options: nil)
+        var op = Date.cal().components(NSCalendarUnit.DayCalendarUnit, fromDate: Date.date0().nsdate, toDate: self.nsdate, options: nil)
         i=op.day
         return i
     }
-   
+    
+    //func asHours() -> Int {
+    //    var i: Int = 0
+    //    var op = cal.components(NSCalendarUnit.HourCalendarUnit, fromDate: NSDate.date0(), toDate: self, options: nil)
+    //    i=op.day
+    //    return i
+    //}
+    //func asSeconds() -> Int {
+    //    var i: Int = 0
+    //    var op = cal.components(NSCalendarUnit.SecondCalendarUnit, fromDate: NSDate.date0(), toDate: self, options: nil)
+    //    i=op.day
+    //    return i
+    //}
+    //func asWeeks() -> Int {
+    //    var i: Int = 0
+    //    var op = cal.components(NSCalendarUnit.WeekCalendarUnit, fromDate: NSDate.date0(), toDate: self, options: nil)
+    //    i=op.day
+    //    return i
+    //}
+    //func asMonths() -> Int {
+    //    var i: Int = 0
+    //    var op = cal.components(NSCalendarUnit.MonthCalendarUnit, fromDate: NSDate.date0(), toDate: self, options: nil)
+    //    i=op.day
+    //    return i
+    //}
+    //func asYears() -> Int {
+    //    var i: Int = 0
+    //    var op = cal.components(NSCalendarUnit.YearCalendarUnit, fromDate: NSDate.date0(), toDate: self, options: nil)
+    //    i=op.day
+    //    return i
+    //}
+    
     func asDouble() -> Double {
         // returns milliseconds, and fraction part of ms
         var ti = nsdate.timeIntervalSinceReferenceDate
@@ -296,6 +361,7 @@ class Date: Printable {
         //f=op.second
         return d
     }
+    
     
     func isBefore(d: Date) -> Bool {
         var dc: NSComparisonResult = ((self.nsdate).compare(d.nsdate))
@@ -339,11 +405,19 @@ class Date: Printable {
         return !(d1.lessThan(d2))
     }
     
-    var description: String {
-    	return "\(self.nsdate)"
-    }
     
-
+    var description: String {
+    return "\(self.nsdate)"
+    }
+    //
+    //func yearF() -> Int {
+    //    var i: Int=0
+    //    var cal = NSCalendar()
+    //    var dateComp = cal.components(NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitMonth|NSCalendarUnit.CalendarUnitDay, fromDate: self)
+    //    i=dateComp.year
+    //    return i
+    //}
+    
     func isLeapYear() -> Bool {
         var r:Bool=false
         r = self.year % 4 == 0 && !(self.year % 100 == 0) || (self.year % 400 == 0)
@@ -357,7 +431,7 @@ class Date: Printable {
         }
         return n
     }
-
+    
     func monthName(dayNames:[String]) -> String {
         var n:String = ""
         if (dayNames.count>=12) {
@@ -365,8 +439,8 @@ class Date: Printable {
         }
         return n
     }
-
-
+    
+    
     func dayName() -> String {
         let dayNames:[String]=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
         return dayName(dayNames)
@@ -376,8 +450,8 @@ class Date: Printable {
         let monthNames:[String]=["January","February","March","April","May","June","July","August","September","October","November","December"]
         return monthName(monthNames)
     }
-
-
+    
+    
     class func n00 (n:Int) -> String {
         var s=""
         if n<10 {
@@ -392,13 +466,13 @@ class Date: Printable {
         var s=Date.n00(self.month)+separator+Date.n00(self.day)+separator+"\(self.year)"
         return s
     }
-
+    
     func stringMDY() -> String {
         // 28/7/2014
         let separator="/"
         return stringMDY(separator)
     }
-
+    
     func stringWMDY() -> String {
         // Monday July 28 2014
         var s=self.dayName()+" "+self.monthName()+" \(self.day) \(self.year)"
@@ -406,6 +480,7 @@ class Date: Printable {
     }
     
 }
+
 
 
 
