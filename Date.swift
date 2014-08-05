@@ -267,7 +267,7 @@ class Date: Printable {
     func add (d: Date) -> Date {
         return add(years:d.year, months:d.month, days:d.day, hours:d.hour, minutes:d.minute, seconds:d.second, nanoseconds:d.nanosecond)
     }
-    func substract (d: Date) -> Date {
+    func subtract (d: Date) -> Date {
         return add(years: -d.year, months: -d.month, days: -d.day, hours: -d.hour, minutes: -d.minute, seconds: -d.second, nanoseconds: -d.nanosecond)
     }
     func add (#years: Int) -> Date {
@@ -482,6 +482,16 @@ class Date: Printable {
 }
 
 
+// date addition and subtraction
+
+func + (left: Date, right: Date) -> Date {
+    var d:Date = Date(date: left)
+    return d.add(right)
+}
+func - (left: Date, right: Date) -> Date {
+    var d:Date = Date(date: left)
+    return d.subtract(right)
+}
 
 
 
@@ -528,9 +538,10 @@ d5.asDays()
 
 d0.asDays()
 
-var dd=Date(date:d4).substract(d6)
-var ddn=Date(date:d4).substract(d5)
-var ddn2=Date(date:d5).substract(d4)
+var dd=Date(date:d4).subtract(d6)
+d4-d6
+var ddn=Date(date:d4).subtract(d5)
+var ddn2=Date(date:d5).subtract(d4)
 dd.asDays()
 ddn.asDays()
 ddn2.asDays()
